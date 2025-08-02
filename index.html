@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dandelion Scoresheet</title>
+  <style>
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      overflow: hidden;
+      font-family: sans-serif;
+    }
+
+    #bg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 783px;
+      height: 736px;
+      object-fit: contain;
+      z-index: 0;
+    }
+
+   .input-container {
+     position: absolute;
+     z-index: 1;
+   }
+
+    input[type="text"] {
+      width: 100%;
+      height: 100%;
+      border: none;
+      font-size: 1em;
+      text-align: center;
+      background-color: rgba(255, 255, 255, 0.8);
+      border-radius: 6px;
+    }
+
+    .square, .round {
+      position: absolute;
+      transform: translate(-50%, -50%);
+    }
+
+    .round input {
+      border-radius: 50%;
+    }
+
+    /* Sprout Rows (Square Inputs) */
+    #sprout-yellow-1 { top: 6%; left: 25%; width: 9%; height: 9%; }
+    #sprout-yellow-2 { top: 6%; left: 36.5%; width: 8.4%; height: 9%; }
+    #sprout-yellow-3 { top: 6%; left: 48%; width: 8%; height: 9%; }
+    #sprout-yellow-5 { top: 6%; left: 59.5%; width: 8%; height: 9%; }
+    #sprout-yellow-8 { top: 6%; left: 71.5%; width: 8%; height: 9%; }
+    #sprout-yellow-total { top: 6%; left: 88%; width: 14%; height: 9%; }
+
+    #sprout-orange-1 { top: 20.5%; left: 25%; width: 9%; height: 9%; }
+    #sprout-orange-2 { top: 20.5%; left: 36.5%; width: 8.4%; height: 9%; }
+    #sprout-orange-3 { top: 20.6%; left: 48%; width: 8%; height: 9%; } 
+    #sprout-orange-5 { top: 20.6%; left: 59.5%; width: 8%; height: 9%; }
+    #sprout-orange-8 { top: 20.6%; left: 71.5%; width: 8%; height: 9%; } 
+    #sprout-orange-total { top: 20.6%; left: 88%; width: 14%; height: 9%; }
+
+    #sprout-green-1 { top: 35.2%; left: 25%; width: 9%; height: 9%; }
+    #sprout-green-2 { top: 35.2%; left: 36.5%; width: 8.4%; height: 9%; }
+    #sprout-green-3 { top: 35.2%; left: 48%; width: 8%; height: 9%; }
+    #sprout-green-5 { top: 35.2%; left: 59.5%; width: 8%; height: 9%; }
+    #sprout-green-8 { top: 35.2%; left: 71.5%; width: 8%; height: 9%; }
+    #sprout-green-total { top: 35.2%; left: 88%; width: 14%; height: 9%; }
+
+    /* Seed Rows (Round Inputs) */
+    #seed-yellow-1 { top: 50.6%; left: 25.2%; width: 9%; height: 9%; }
+    #seed-yellow-2 { top: 50.6%; left: 36.5%; width: 8%; height: 9%; }
+    #seed-yellow-3 { top: 50.6%; left: 48%; width: 8%; height: 9%; }
+    #seed-yellow-5 { top: 50.6%; left: 59.5%; width: 8%; height: 9%; }
+    #seed-yellow-8 { top: 50.6%; left: 71.5%; width: 8%; height: 9%; }
+    #seed-yellow-total { top: 50.6%; left: 88%; width: 14%; height: 9%; }
+
+    #seed-orange-1 { top: 65%; left: 25.2%; width: 8%; height: 9%; }
+    #seed-orange-2 { top: 65%; left: 36.5%; width: 8.4%; height: 9%; }
+    #seed-orange-3 { top: 65%; left: 48%; width: 8%; height: 9%; }
+    #seed-orange-5 { top: 65%; left: 59.5%; width: 8%; height: 9%; }
+    #seed-orange-8 { top: 65%; left: 71.5%; width: 8%; height: 9%; }
+    #seed-orange-total { top: 65%; left: 88%; width: 14%; height: 9%; }
+
+    #seed-green-1 { top: 80%; left: 25.2%; width: 8%; height: 9%; }
+    #seed-green-2 { top: 80%; left: 36.5%; width: 8.4%; height: 9%; }
+    #seed-green-3 { top: 80%; left: 48%; width: 8%; height: 9%; }
+    #seed-green-5 { top: 80%; left: 59.5%; width: 8%; height: 9%; }
+    #seed-green-8 { top: 80%; left: 71.5%; width: 8%; height: 9%; }
+    #seed-green-total { top: 80%; left: 88%; width: 14%; height: 9%; }
+
+    .viewport {
+      position: relative;
+      width: 783px;
+      height: 736px;
+      margin: 0 auto;
+      overflow: hidden;
+      background: black; /* optional letterbox color */
+    }
+  </style>
+</head>
+<body>
+  <div class="viewport">
+  <img src="DandelionScoresheet.jpg" alt="Background" id="bg" />
+
+  <!-- Sprout Yellow Row -->
+  <div class="square input-container" id="sprout-yellow-1"><input type="text" oninput="calculateTotals()" /></div>
+  <div class="square input-container" id="sprout-yellow-2"><input type="text" oninput="calculateTotals()" /></div>
+  <div class="square input-container" id="sprout-yellow-3"><input type="text" oninput="calculateTotals()" /></div>
+  <div class="square input-container" id="sprout-yellow-5"><input type="text" oninput="calculateTotals()" /></div>
+  <div class="square input-container" id="sprout-yellow-8"><input type="text" oninput="calculateTotals()" /></div>
+  <div class="square input-container" id="sprout-yellow-total"><input type="text" readonly /></div>
+
+  <!-- Sprout Orange Row -->
+  <div class="square input-container" id="sprout-orange-1"><input type="text" oninput="calculateTotals()" /></div>
+  <div class="square input-container" id="sprout-orange-2"><input type="text" oninput="calculateTotals()" /></div>
+  <div class="square input-container" id="sprout-orange-3"><input type="text" oninput="calculateTotals()" /></div>
+  <div class="square input-container" id="sprout-orange-5"><input type="text" oninput="calculateTotals()" /></div>
+  <div class="square input-container" id="sprout-orange-8"><input type="text" oninput="calculateTotals()" /></div>
+  <div class="square input-container" id="sprout-orange-total"><input type="text" readonly /></div>
+
+  <!-- Sprout Green Row -->
+  <div class="square input-container" id="sprout-green-1"><input type="text" oninput="calculateTotals()" /></div>
+  <div class="square input-container" id="sprout-green-2"><input type="text" oninput="calculateTotals()" /></div>
+  <div class="square input-container" id="sprout-green-3"><input type="text" oninput="calculateTotals()" /></div>
+  <div class="square input-container" id="sprout-green-5"><input type="text" oninput="calculateTotals()" /></div>
+  <div class="square input-container" id="sprout-green-8"><input type="text" oninput="calculateTotals()" /></div>
+  <div class="square input-container" id="sprout-green-total"><input type="text" readonly /></div>
+
+<!-- Seed Yellow Row -->
+<div class="round input-container" id="seed-yellow-1"><input type="text" oninput="calculateTotals()" /></div>
+<div class="round input-container" id="seed-yellow-2"><input type="text" oninput="calculateTotals()" /></div>
+<div class="round input-container" id="seed-yellow-3"><input type="text" oninput="calculateTotals()" /></div>
+<div class="round input-container" id="seed-yellow-5"><input type="text" oninput="calculateTotals()" /></div>
+<div class="round input-container" id="seed-yellow-8"><input type="text" oninput="calculateTotals()" /></div>
+<div class="round input-container" id="seed-yellow-total"><input type="text" readonly /></div>
+
+<!-- Seed Orange Row -->
+<div class="round input-container" id="seed-orange-1"><input type="text" oninput="calculateTotals()" /></div>
+<div class="round input-container" id="seed-orange-2"><input type="text" oninput="calculateTotals()" /></div>
+<div class="round input-container" id="seed-orange-3"><input type="text" oninput="calculateTotals()" /></div>
+<div class="round input-container" id="seed-orange-5"><input type="text" oninput="calculateTotals()" /></div>
+<div class="round input-container" id="seed-orange-8"><input type="text" oninput="calculateTotals()" /></div>
+<div class="round input-container" id="seed-orange-total"><input type="text" readonly /></div>
+
+<!-- Seed Green Row -->
+<div class="round input-container" id="seed-green-1"><input type="text" oninput="calculateTotals()" /></div>
+<div class="round input-container" id="seed-green-2"><input type="text" oninput="calculateTotals()" /></div>
+<div class="round input-container" id="seed-green-3"><input type="text" oninput="calculateTotals()" /></div>
+<div class="round input-container" id="seed-green-5"><input type="text" oninput="calculateTotals()" /></div>
+<div class="round input-container" id="seed-green-8"><input type="text" oninput="calculateTotals()" /></div>
+<div class="round input-container" id="seed-green-total"><input type="text" readonly /></div>
+
+</div>
+  <script>
+    function calculateTotals() {
+      const rows = [
+        ["sprout-yellow-1", "sprout-yellow-2", "sprout-yellow-3", "sprout-yellow-5", "sprout-yellow-8", "sprout-yellow-total"],
+        ["sprout-orange-1", "sprout-orange-2", "sprout-orange-3", "sprout-orange-5", "sprout-orange-8", "sprout-orange-total"],
+        ["sprout-green-1", "sprout-green-2", "sprout-green-3", "sprout-green-5", "sprout-green-8", "sprout-green-total"],
+        ["seed-yellow-1", "seed-yellow-2", "seed-yellow-3", "seed-yellow-5", "seed-yellow-8", "seed-yellow-total"],
+        ["seed-orange-1", "seed-orange-2", "seed-orange-3", "seed-orange-5", "seed-orange-8", "seed-orange-total"],
+        ["seed-green-1", "seed-green-2", "seed-green-3", "seed-green-5", "seed-green-8", "seed-green-total"]
+      ],
+        ["sprout-orange-1", "sprout-orange-2", "sprout-orange-3", "sprout-orange-5", "sprout-orange-8", "sprout-orange-total"],
+        ["sprout-green-1", "sprout-green-2", "sprout-green-3", "sprout-green-5", "sprout-green-8", "sprout-green-total"]
+      ];
+
+      rows.forEach(row => {
+        const values = row.slice(0, 5).map(id => parseInt(document.querySelector(`#${id} input`).value) || 0);
+        const total = values.reduce((sum, val) => sum + val, 0);
+        document.querySelector(`#${row[5]} input`).value = total;
+      });
+    }
+  </script>
+</body>
+</html>
