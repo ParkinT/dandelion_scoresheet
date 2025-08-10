@@ -128,6 +128,7 @@
     function calculateTotals() {
       const multipliers = { "1": 1, "2": 2, "3": 3, "5": 5, "8": 8 };
       const grand = { yellow: 0, orange: 0, green: 0 };
+
       const rows = [
         ["sprout-yellow-1", "sprout-yellow-2", "sprout-yellow-3", "sprout-yellow-5", "sprout-yellow-8", "sprout-yellow-total"],
         ["sprout-orange-1", "sprout-orange-2", "sprout-orange-3", "sprout-orange-5", "sprout-orange-8", "sprout-orange-total"],
@@ -136,26 +137,39 @@
         ["seed-orange-1", "seed-orange-2", "seed-orange-3", "seed-orange-5", "seed-orange-8", "seed-orange-total"],
         ["seed-green-1", "seed-green-2", "seed-green-3", "seed-green-5", "seed-green-8", "seed-green-total"]
       ];
+
       rows.forEach(row => {
+        const isSeed = row[0].startsWith("seed-");  // <-- key fix
         let rowSum = 0;
+
         row.slice(0, 5).forEach(id => {
           const el = document.querySelector(`#${id} input`);
           const raw = el?.value?.trim() ?? "";
           const parsed = Number(raw);
           const value = (raw !== "" && !isNaN(parsed) && parsed >= 0) ? parsed : 0;
-          const match = id.match(/-(\d)$/);
-          const multiplier = match ? multipliers[match[1]] || 1 : 1;
-          rowSum += value * multiplier;
+
+          if (isSeed) {
+            // Seed rows: NO multiplier. Sum values as-is.
+            rowSum += value;
+          } else {
+            // Sprout rows: apply 1/2/3/5/8 multiplier.
+            const match = id.match(/-(\d)$/);
+            const multiplier = match ? multipliers[match[1]] || 1 : 1;
+            rowSum += value * multiplier;
+          }
         });
+
         const totalField = document.querySelector(`#${row[5]} input`);
         if (totalField) {
           totalField.value = rowSum;
           totalField.setAttribute("tabindex", "-1");
         }
+
         if (row[0].includes("yellow")) grand.yellow += rowSum;
         else if (row[0].includes("orange")) grand.orange += rowSum;
         else if (row[0].includes("green")) grand.green += rowSum;
       });
+
       document.querySelector("#total-sprout-yellow input").value = grand.yellow;
       document.querySelector("#total-sprout-orange input").value = grand.orange;
       document.querySelector("#total-sprout-green input").value = grand.green;
