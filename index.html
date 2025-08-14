@@ -175,5 +175,76 @@
       document.querySelector("#total-sprout-green input").value = grand.green;
     }
   </script>
+
+  <script>
+    // === Numeric keypad + digits-only enforcement (applied to all scoring inputs) ===
+    (function () {
+      function setupNumericInputs() {
+        // Select all inputs inside positioned containers that are NOT readonly totals
+        var inputs = document.querySelectorAll('.input-container input:not([readonly])');
+        inputs.forEach(function(input) {
+          // Keyboard & validation hints for tablets/phones
+          input.type = 'text';
+          input.setAttribute('inputmode', 'numeric');
+          input.setAttribute('pattern', '[0-9]*');
+          input.setAttribute('autocomplete', 'off');
+          input.classList.add('numeric-only');
+
+          // Real-time sanitization (prevents pasted or IME non-digits)
+          input.addEventListener('input', function (e) {
+            var cur = this.value;
+            var cleaned = cur.replace(/\D+/g, '');
+            if (cur !== cleaned) {
+              var pos = this.selectionStart || cleaned.length;
+              this.value = cleaned;
+              // Re-trigger totals after change if inline handler didn't fire yet
+              if (typeof window.calculateTotals === 'function') {
+                window.calculateTotals();
+              }
+              // Try to restore caret position
+              try { this.setSelectionRange(pos, pos); } catch(_) {}
+            }
+          });
+
+          // Optional hard validation on blur (empty or digits ok)
+          input.addEventListener('blur', function() {
+            if (this.value && !/^\d+$/.test(this.value)) {
+              this.value = this.value.replace(/\D+/g, '');
+              if (typeof window.calculateTotals === 'function') {
+                window.calculateTotals();
+              }
+            }
+          });
+
+          // Prevent mouse wheel from changing focus values accidentally
+          input.addEventListener('wheel', function(e) {
+            e.preventDefault();
+          }, { passive: false });
+
+          // Block non-digit keypresses except navigation/edit keys
+          input.addEventListener('keydown', function(e) {
+            var allowed = [
+              'Backspace','Delete','ArrowLeft','ArrowRight','ArrowUp','ArrowDown',
+              'Tab','Home','End'
+            ];
+            if (allowed.indexOf(e.key) !== -1) return;
+            // Allow Ctrl/Cmd+A/C/V/X/Z/Y
+            if ((e.ctrlKey || e.metaKey) && /^[acvxyz]$/i.test(e.key)) return;
+            // Digits only
+            if (!/^\d$/.test(e.key)) {
+              e.preventDefault();
+            }
+          });
+        });
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', setupNumericInputs);
+      } else {
+        setupNumericInputs();
+      }
+    })();
+  </script>
 </body>
 </html>
+
